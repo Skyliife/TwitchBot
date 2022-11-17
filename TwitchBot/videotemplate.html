@@ -1,0 +1,13 @@
+﻿<video  id="video" width="800" height="600" autoplay muted >
+    <source src="%s" type="video/mp4">
+
+    Your browser does not support the video tag.
+</video>
+
+
+<script type='text/javascript'>
+    document.getElementById('myVideo').addEventListener('ended',myHandler,false);
+    function myHandler(e) {
+        window.location.reload();
+    }
+</script>

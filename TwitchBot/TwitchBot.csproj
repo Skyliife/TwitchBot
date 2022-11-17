@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <TargetFramework>net6.0-windows</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AsyncAwaitBestPractices" Version="6.0.6" />
+      <PackageReference Include="MediaInfo.DotNetWrapper" Version="1.0.7" />
+      <PackageReference Include="MediaToolkit" Version="1.1.0.1" />
+      <PackageReference Include="NAudio" Version="2.1.0" />
+      <PackageReference Include="System.Speech" Version="7.0.0" />
+      <PackageReference Include="System.Windows.Extensions" Version="7.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="urmum.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="test.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="videotemplate.html" />
+      <EmbeddedResource Include="videotemplate.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <None Remove="video.html" />
+      <EmbeddedResource Include="video.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <None Remove="emptytemplate.html" />
+      <EmbeddedResource Include="emptytemplate.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <None Remove="test.mp4" />
+      <EmbeddedResource Include="test.mp4">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+
+</Project>
