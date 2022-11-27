@@ -10,68 +10,75 @@ namespace TwtichBot
 {
     class Program
     {
-        public static SpeechSynthesizer synthesizer;
+        public static Config Config { get; private set; } = null;
         
         static async Task Main(string[] args)
         {
-            string text = File.ReadAllText("urmum.txt");  
-            string password = text;
-            string botUsername = "jenkinsclbot";
-
+            
+            Config = Config.LoadOrDefault();
+            string botUsername = Config.Username;
+            string password = Config.AccessToken;
+            string channel = Config.Channel;
+            // Console.Write(password);
             var twitchBot = new TwitchBot(botUsername, password);
             twitchBot.Start().SafeFireAndForget();
             
-            await twitchBot.JoinChannel("skyliife");
-            await twitchBot.SendMessage("skyliife", "Hey my bot has started up");
-            InitVoice();
+            await twitchBot.JoinChannel(channel);
+            await twitchBot.SendMessage(channel, "Hey my bot has started up");
+            
 
             twitchBot.OnMessage += async (sender, twitchChatMessage) =>
             {
-                Console.WriteLine($"{twitchChatMessage.Sender} said '{twitchChatMessage.Message}'");
-                
-                if (twitchChatMessage.Message.StartsWith("!hey"))
-                {
-                    await twitchBot.SendMessage(twitchChatMessage.Channel, $"Hey there {twitchChatMessage.Sender}");
-                }
-                else if (twitchChatMessage.Message.StartsWith("!tts"))
-                {
-                    var data = twitchChatMessage.Message;
-                    PlayMp3FromUrl($"https://api.streamelements.com/kappa/v2/speech?voice=Brian&text={data[4..]}");
-                }
-                else if (twitchChatMessage.Message.StartsWith("!pic"))
-                {
-                    var msg = twitchChatMessage.Message;
-                    var link = msg.Substring(5);
-                    Console.WriteLine(link);
-                    PlayVideo(link);
-                }
+                // DisplayMessage
+                // Console.WriteLine($"{twitchChatMessage.Sender} said '{twitchChatMessage.Message}'");
+                await HandleMessages(twitchChatMessage, twitchBot);
             };
             
             await Task.Delay(-1);
         }
 
-
-        public static void InitVoice()
+        private static async Task HandleMessages(TwitchBot.TwitchChatMessage twitchChatMessage, TwitchBot twitchBot)
         {
-            synthesizer = new SpeechSynthesizer();
-            synthesizer.Volume = 100;  
-            synthesizer.Rate = -2;     
+            if (twitchChatMessage.Message.StartsWith("!hey"))
+            {
+                await twitchBot.SendMessage(twitchChatMessage.Channel, $"Hey there {twitchChatMessage.Sender}");
+            }
+            else if (twitchChatMessage.Message.StartsWith("!tts"))
+            {
+                var data = twitchChatMessage.Message;
+                PlayMp3FromUrl($"https://api.streamelements.com/kappa/v2/speech?voice=Brian&text={data[4..]}");
+            }
+            else if (twitchChatMessage.Message.StartsWith("!clip"))
+            {
+                PlayRandomVideo();
+            }
         }
+
+
+     
         
-        public static void PlayVideo(string url)
+        
+
+        private static void PlayRandomVideo()
         {
+           
+            var files = Directory.GetFiles("clips", "*.mp4");
+            int index = new Random().Next(0, files.Length);
+            var randomfile = files[index];
+            var url = randomfile.Replace('\\',Path.AltDirectorySeparatorChar);
+            // Console.WriteLine(url);
             var duration = GetMp4DurationInSeconds(url);
-            var template = File.ReadAllText("videotemplate.html");
-            var newtemp = template.Replace("%s", url);
+            var template = File.ReadAllText("html/videotemplate.html");
+            var newtemp = template.Replace("%s", @$"../{url}");
             // Console.WriteLine(template);
             // Console.WriteLine(newtemp);
-            File.WriteAllText("video.html",newtemp);
+            File.WriteAllText("html/video.html", newtemp);
             Thread.Sleep(1000);
-            var empty = File.ReadAllText("emptytemplate.html");
-            File.WriteAllText("video.html", empty);
-            Thread.Sleep(duration*1000);
-            Console.Write("Finish "+ "slept "+ duration*1000);
-            
+            var empty = File.ReadAllText("html/emptytemplate.html");
+            Thread.Sleep(duration * 1000);
+            File.WriteAllText("html/video.html", empty);
+            Thread.Sleep(duration * 1000);
+            // Console.Write("Finish " + "slept " + duration * 1000);
         }
 
         public static int GetMp4DurationInSeconds(string url)
@@ -83,8 +90,8 @@ namespace TwtichBot
                 engine.GetMetadata(inputFile);
             }
             var t = inputFile.Metadata.Duration;
-            Console.WriteLine(inputFile.Metadata.Duration);
-            Console.WriteLine(t.Seconds);
+            // Console.WriteLine(inputFile.Metadata.Duration);
+            // Console.WriteLine(t.Seconds);
             return t.Seconds;
         }
 

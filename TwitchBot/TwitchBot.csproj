@@ -13,36 +13,29 @@
       <PackageReference Include="MediaInfo.DotNetWrapper" Version="1.0.7" />
       <PackageReference Include="MediaToolkit" Version="1.1.0.1" />
       <PackageReference Include="NAudio" Version="2.1.0" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
       <PackageReference Include="System.Speech" Version="7.0.0" />
       <PackageReference Include="System.Windows.Extensions" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="urmum.txt">
+      <EmbeddedResource Include="html\emptytemplate.html">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="test.html">
+      </EmbeddedResource>
+      <EmbeddedResource Include="html\videotemplate.html">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
-    <ItemGroup>
+      </EmbeddedResource>
       <None Remove="videotemplate.html" />
-      <EmbeddedResource Include="videotemplate.html">
+      <EmbeddedResource Include="clips\test.mp4">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <EmbeddedResource Include="html\video.html">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </EmbeddedResource>
       <None Remove="video.html" />
-      <EmbeddedResource Include="video.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </EmbeddedResource>
       <None Remove="emptytemplate.html" />
-      <EmbeddedResource Include="emptytemplate.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </EmbeddedResource>
       <None Remove="test.mp4" />
-      <EmbeddedResource Include="test.mp4">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </EmbeddedResource>
+      <None Remove="urmum.txt" />
     </ItemGroup>
 
 </Project>
