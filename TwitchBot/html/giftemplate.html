@@ -1,0 +1,14 @@
+﻿
+<img id="video" src="%gif"  style="width: 100%; height: 100%"  />
+
+<script type='text/javascript'>
+
+    setTimeout(() => {
+        const box = document.getElementById('video');
+
+        // 👇️ hides element (still takes up space on page)
+        box.remove();
+        window.location.reload();
+    }, "%secs");
+
+</script>

@@ -6,10 +6,9 @@ namespace TwtichBot
     {
         public string Username { get; set; }
         public string AccessToken { get; set; }
-
-
+        
+        public bool Gifsupport { get; set; }
         public string Channel { get; set; }
-
 
         private const string filename = "config.json";
 
@@ -26,6 +25,7 @@ namespace TwtichBot
                 Username = "username",
                 Channel = "channel",
                 AccessToken = "token",
+                Gifsupport = false,
             };
             result.Save();
             return result;

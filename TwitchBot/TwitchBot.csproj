@@ -10,11 +10,9 @@
 
     <ItemGroup>
       <PackageReference Include="AsyncAwaitBestPractices" Version="6.0.6" />
-      <PackageReference Include="MediaInfo.DotNetWrapper" Version="1.0.7" />
       <PackageReference Include="MediaToolkit" Version="1.1.0.1" />
       <PackageReference Include="NAudio" Version="2.1.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-      <PackageReference Include="System.Speech" Version="7.0.0" />
       <PackageReference Include="System.Windows.Extensions" Version="7.0.0" />
     </ItemGroup>
 
@@ -36,6 +34,10 @@
       <None Remove="emptytemplate.html" />
       <None Remove="test.mp4" />
       <None Remove="urmum.txt" />
+      <None Remove="html\giftemplate.html" />
+      <EmbeddedResource Include="html\giftemplate.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
     </ItemGroup>
 
 </Project>
